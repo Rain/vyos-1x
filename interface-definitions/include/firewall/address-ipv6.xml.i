@@ -15,6 +15,10 @@
       <description>IP range to match</description>
     </valueHelp>
     <valueHelp>
+      <format>&lt;h:h:h:h:h:h:h:h/h:h:h:h:h:h:h:h&gt;</format>
+      <description>Masked IP to match</description>
+    </valueHelp>
+    <valueHelp>
       <format>!ipv6</format>
       <description>Match everything except the specified address</description>
     </valueHelp>
@@ -26,11 +30,17 @@
       <format>!ipv6range</format>
       <description>Match everything except the specified range</description>
     </valueHelp>
+    <valueHelp>
+      <format>!&lt;h:h:h:h:h:h:h:h/h:h:h:h:h:h:h:h&gt;</format>
+      <description>Match everything except masked IP</description>
+    </valueHelp>
     <constraint>
       <validator name="ipv6"/>
       <validator name="ipv6-exclude"/>
       <validator name="ipv6-range"/>
       <validator name="ipv6-range-exclude"/>
+      <validator name="ipv6-masked"/>
+      <validator name="ipv6-masked-exclude"/>
     </constraint>
   </properties>
 </leafNode>

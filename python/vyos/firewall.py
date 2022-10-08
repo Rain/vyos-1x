@@ -147,7 +147,16 @@ def parse_rule(rule_conf, fw_name, rule_id, ip_name):
 
             if 'address' in side_conf:
                 suffix = side_conf['address']
-                if suffix[0] == '!':
+                last_delimiter = max(suffix.rfind('.'), suffix.rfind(':'))
+                if '/' in suffix and suffix.index('/') < last_delimiter:
+                    # Masked address (eg. ::beef/::ffff)
+                    op = '=='
+                    suffix, mask = suffix.split('/')
+                    if suffix[0] == '!':
+                        suffix = suffix[1:]
+                        op = '!='
+                    suffix = f'& {mask} {op} {suffix}'
+                elif suffix[0] == '!':
                     suffix = f'!= {suffix[1:]}'
                 output.append(f'{ip_name} {prefix}addr {suffix}')
 

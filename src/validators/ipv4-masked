@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+from ipaddress import IPv4Address
+from sys import argv, exit
+
+if __name__ == "__main__":
+    if len(argv) > 1:
+        try:
+            ipv4, mask = argv[1].split('/')
+            _ = IPv4Address(ipv4)
+            _ = IPv4Address(mask)
+        except Exception as err:
+            print(f'Error: {argv[1]} is not a valid masked IPv4 address: {err}')
+            exit(1)
+    else:
+        print('Error: a masked IPv4 argument must be provided')
+        exit(1)

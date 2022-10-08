@@ -15,6 +15,10 @@
       <description>IPv4 address range to match</description>
     </valueHelp>
     <valueHelp>
+      <format>&lt;x.x.x.x/x.x.x.x&gt;</format>
+      <description>Masked IPv4 address to match (e.g. 0.11.0.13/0.255.0.255)</description>
+    </valueHelp>
+    <valueHelp>
       <format>!ipv4</format>
       <description>Match everything except the specified address</description>
     </valueHelp>
@@ -26,13 +30,19 @@
       <format>!ipv4range</format>
       <description>Match everything except the specified range</description>
     </valueHelp>
+    <valueHelp>
+      <format>!&lt;x.x.x.x/x.x.x.x&gt;</format>
+      <description>Match everything except masked IPv4 address</description>
+    </valueHelp>
     <constraint>
       <validator name="ipv4-address"/>
       <validator name="ipv4-prefix"/>
       <validator name="ipv4-range"/>
+      <validator name="ipv4-masked"/>
       <validator name="ipv4-address-exclude"/>
       <validator name="ipv4-prefix-exclude"/>
       <validator name="ipv4-range-exclude"/>
+      <validator name="ipv4-masked-exclude"/>
     </constraint>
   </properties>
 </leafNode>
