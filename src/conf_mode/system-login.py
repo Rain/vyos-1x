@@ -257,6 +257,15 @@ def apply(login):
             except Exception as e:
                 raise ConfigError(f'Adding user "{user}" raised exception: "{e}"')
 
+            # Generate 2FA/MFA One-Time-Pad configuration
+            if dict_search('authentication.otp.key', user_config):
+                render(f'{home_dir}/.google_authenticator', 'login/pam_otp_ga.conf.j2',
+                       user_config, permission=0o400, user=user, group='users')
+            else:
+                # delete configuration as it's not enabled for the user
+                if os.path.exists(f'{home_dir}/.google_authenticator'):
+                    os.remove(f'{home_dir}/.google_authenticator')
+
     if 'rm_users' in login:
         for user in login['rm_users']:
             try:

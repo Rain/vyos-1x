@@ -107,9 +107,6 @@ router isis VyOS {{ 'vrf ' + vrf if vrf is vyos_defined }}
  mpls-te inter-as{{ level }}
 {% endif %}
 {% if segment_routing is vyos_defined %}
-{%     if segment_routing.enable is vyos_defined %}
- segment-routing on
-{%     endif %}
 {%     if segment_routing.maximum_label_depth is vyos_defined %}
  segment-routing node-msd {{ segment_routing.maximum_label_depth }}
 {%     endif %}
@@ -124,26 +121,17 @@ router isis VyOS {{ 'vrf ' + vrf if vrf is vyos_defined }}
 {%         for prefix, prefix_config in segment_routing.prefix.items() %}
 {%             if prefix_config.absolute is vyos_defined %}
 {%                 if prefix_config.absolute.value is vyos_defined %}
- segment-routing prefix {{ prefix }} absolute {{ prefix_config.absolute.value }}
-{%                     if prefix_config.absolute.explicit_null is vyos_defined %}
- segment-routing prefix {{ prefix }} absolute {{ prefix_config.absolute.value }} explicit-null
-{%                     elif prefix_config.absolute.no_php_flag is vyos_defined %}
- segment-routing prefix {{ prefix }} absolute {{ prefix_config.absolute.value }} no-php-flag
-{%                     endif %}
+ segment-routing prefix {{ prefix }} absolute {{ prefix_config.absolute.value }} {{ 'explicit-null' if prefix_config.absolute.explicit_null is vyos_defined }} {{ 'no-php-flag' if prefix_config.absolute.no_php_flag is vyos_defined }}
 {%                 endif %}
 {%             endif %}
 {%             if prefix_config.index is vyos_defined %}
 {%                 if prefix_config.index.value is vyos_defined %}
- segment-routing prefix {{ prefix }} index {{ prefix_config.index.value }}
-{%                     if prefix_config.index.explicit_null is vyos_defined %}
- segment-routing prefix {{ prefix }} index {{ prefix_config.index.value }} explicit-null
-{%                     elif prefix_config.index.no_php_flag is vyos_defined %}
- segment-routing prefix {{ prefix }} index {{ prefix_config.index.value }} no-php-flag
-{%                     endif %}
+ segment-routing prefix {{ prefix }} index {{ prefix_config.index.value }} {{ 'explicit-null' if prefix_config.index.explicit_null is vyos_defined }} {{ 'no-php-flag' if prefix_config.index.no_php_flag is vyos_defined }}
 {%                 endif %}
 {%             endif %}
 {%         endfor %}
 {%     endif %}
+ segment-routing on
 {% endif %}
 {% if spf_delay_ietf.init_delay is vyos_defined %}
  spf-delay-ietf init-delay {{ spf_delay_ietf.init_delay }} short-delay {{ spf_delay_ietf.short_delay }} long-delay {{ spf_delay_ietf.long_delay }} holddown {{ spf_delay_ietf.holddown }} time-to-learn {{ spf_delay_ietf.time_to_learn }}
